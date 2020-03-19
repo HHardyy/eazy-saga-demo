@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import TodolistUI from './ui'
-import axios from 'axios'
+import { getTodolistWithSaga, getTodolist } from './store/actionCreators'
 
 class Todolist extends Component {
   componentDidMount(){
-    axios.get('localhost:9090/api/getlist')
-    .then(res => {
-      console.log(res)
-    })
+    this.props.initAxiosList()
   }
   render(){
     const { inputValue, datalist, inputVal, addList, rmItemFromList } = this.props
@@ -33,6 +30,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    initAxiosList(){
+      // let action = getTodolist()
+      // dispatch(action)
+
+      // with saga
+      let action = getTodolistWithSaga()
+      dispatch(action)
+    },
     inputVal(e){
       let action = {
         type: 'input',
